@@ -17,21 +17,26 @@ d = {
 
 wyniki = {}
 
+
 def wycen(waluta, kwota):
     r = requests.get(f'https://api.nbp.pl/api/exchangerates/rates/a/{waluta}/?format=json')
     kurs = r.json()['rates'][0]['mid']
     wyniki[waluta] = round(kurs * kwota, 2)
+    return round(kurs * kwota, 2)
 
-lista_watkow = []
 
-for waluta, kwota in d.items():
-    lista_watkow.append(threading.Thread(target=wycen, args=(waluta, kwota)))
 
-for t in lista_watkow:
-    t.start()
+if __name__ == '__main__':
+    lista_watkow = []
 
-for t in lista_watkow:
-    t.join()
+    for waluta, kwota in d.items():
+        lista_watkow.append(threading.Thread(target=wycen, args=(waluta, kwota)))
 
-print(wyniki)
-print(round(sum(wyniki.values()), 2))
+    for t in lista_watkow:
+        t.start()
+
+    for t in lista_watkow:
+        t.join()
+
+    print(wyniki)
+    print(round(sum(wyniki.values()), 2))

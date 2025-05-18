@@ -2,7 +2,7 @@ class Host:
     __slots__ = ['_ip']
 
     def _set_ip(self, ip):
-        w = tuple(int(i) for i in ip.split('.'))
+        w = tuple(int(i) for i in ip.split('.') if i)
         if len(w) != 4:
             raise ValueError(f'ip address must have 4 number, got: {ip}')
         if not all(0 <= i <= 255 for i in w):
