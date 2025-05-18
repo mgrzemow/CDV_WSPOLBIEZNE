@@ -17,6 +17,7 @@ class Host:
     @property
     def ip_tuple(self):
         return self._ip
+    
 
     def __init__(self, ip):
         self.ip = ip
